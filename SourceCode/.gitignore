@@ -46,3 +46,6 @@ obj/
 *.vcxproj.filters
 *.vcxproj.*.user
 *.vcxproj.*.filters
+
+# cmake
+build
