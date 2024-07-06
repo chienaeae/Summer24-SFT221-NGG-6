@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include "mapping.h"
+#include "shipment.h"
 
 int main(void)
 {
@@ -8,7 +9,8 @@ int main(void)
 	struct Route blueRoute = getBlueRoute();
 	struct Map routeMap = addRoute(&baseMap, &blueRoute);
 
-	printMap(&routeMap, 1, 1);
+	printMap(&baseMap, 1, 1);
+	// visualizeRoute(&baseMap, &blueRoute, 1, 1);
 
 	return 0;
 }
