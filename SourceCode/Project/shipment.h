@@ -21,8 +21,7 @@ struct Shipment {
 };
 
 struct Truck {
-    // 1: blue; 2:green; 3: yellow
-    int routeColor;
+	int m_id;
     struct Route route;
     int m_weight_capacity;
     int m_volume_capacity;
