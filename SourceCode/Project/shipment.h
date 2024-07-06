@@ -1,3 +1,8 @@
+#ifdef _WIN32
+#include <conio.h> // Windows 
+#else
+#include <unistd.h> // Unix
+#endif
 #include "mapping.h"
 
 const double WEIGHT_MAX = 2500;
@@ -102,7 +107,12 @@ void visualizeRoute(
 	for(i = 0; i < route->numPoints; i ++) {
 		struct Point point = route->points[i];
 		// clear console
-		printf("\e[1;1H\e[2J");
+#ifdef _WIN32
+        system("cls");
+#else
+        printf("\e[1;1H\e[2J");
+#endif
+
 		printf("Current Point: (%d:%d)\n", point.row, point.col);
 
 		//              01234567890123456
@@ -140,6 +150,12 @@ void visualizeRoute(
 			printf("\n");
 		}
 		printf("Press enter to see the next move: ");
-		while ((getchar()) != '\n');
+
+		// Wait fot console input
+#ifdef _WIN32
+        while (_getch() != '\r'); 
+#else
+        while (getchar() != '\n'); 
+#endif
 	}
 }
