@@ -5,14 +5,16 @@
 #endif
 #include "mapping.h"
 
-const double WEIGHT_MAX = 2500;
+const int WEIGHT_MAX = 2500;
+const int VOLUME_MAX = 100;
+
+
+const char LEFT_MOST_ROW = 'A';
+const char RIGHT_MOST_ROW = 'Y';
+const int TOP_MOST_COL = 1;
+const int DOWN_MOST_COL = 25;
 
 const int validBoxSizes[3] = {1,3,5};
-
-const char leftMostRow = 'A';
-const char rightMostRow = 'Y';
-const int topMostCol = 1;
-const int downMostCol = 25;
 
 struct Shipment {
     int m_weight;
