@@ -11,8 +11,8 @@ const int validBoxSizes[3] = {1,3,5};
 
 const char leftMostRow = 'A';
 const char rightMostRow = 'Y';
-const int TOP_MOST_COL = 1;
-const int DOWN_MOST_COL = 25;
+const int topMostCol = 1;
+const int downMostCol = 25;
 
 struct Shipment {
     int m_weight;
@@ -37,7 +37,7 @@ struct Truck {
 int isValidWeight(struct Shipment *shipement);
 
 /**
- * Function: isValidWeight
+ * Function: isValidBoxSize
  * - Check if the field `m_boxSize` of the given shipment is valid.
  * 
  * @param shipment - Shipment struct containing the destination coordinates (row and column) of the shipment.
@@ -46,13 +46,23 @@ int isValidWeight(struct Shipment *shipement);
 int isValidBoxSize(struct Shipment *shipement);
 
 /**
- * Function: isValidWeight
+ * Function: isValidDest
  * - Check if the field `m_dest` of the given shipment is valid.
  * 
  * @param shipment - Shipment struct containing the destination coordinates (row and column) of the shipment.
  * @returns - integer, return true if valide, otherwise return false
  */
 int isValidDest(struct Shipment *shipement);
+
+/**
+ * Function: limitingFactorWithShipment
+ * - Calculate the limiting factor of a truck with a extra shipment
+ * 
+ * @param truck - a truck to be calcualted with a extra shipment
+ * @param withShipment - the extra shipment
+ * @returns - double, return a limiting factor in percentage
+ */
+double limitingFactorWithShipment(struct Truck* truck, struct Shipment *withShipment);
 
 /**
  * Function: findTruckForShipment
