@@ -34,8 +34,6 @@ namespace UnitTest
         TEST_METHOD(ShipmentOneTest)
         {
             Logger::WriteMessage("In ShipmentOneTest test");
-            int i = shipmentAdd(1, 2);
-            Assert::AreEqual(3, i);
         }
 	};
 
@@ -54,8 +52,6 @@ namespace UnitTest
         TEST_METHOD(MappingOneTest)
         {
             Logger::WriteMessage("In MappingOneTest test");
-            int i = mappingAdd(1, 2);
-            Assert::AreEqual(3, i);
         }
     };
 }

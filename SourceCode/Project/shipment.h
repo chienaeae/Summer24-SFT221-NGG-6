@@ -113,6 +113,5 @@ void visualizeRoute(
     const struct Map* baseMap, const struct Route* route, const int base1, const int alphaCols
 );
 
-int shipmentAdd(int x, int y);
 
 #endif

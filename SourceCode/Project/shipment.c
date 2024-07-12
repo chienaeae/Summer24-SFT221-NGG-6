@@ -82,8 +82,3 @@ void visualizeRoute(
 }
 
 
-int shipmentAdd(int x, int y) {
-	return x + y;
-}
-
-
