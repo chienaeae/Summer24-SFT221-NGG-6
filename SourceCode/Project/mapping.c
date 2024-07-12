@@ -287,3 +287,7 @@ int getClosestPoint(const struct Route* route, const struct Point pt)
 	}
 	return closestIdx;
 }
+
+int mappingAdd(int x, int y) {
+	return x + y;
+}

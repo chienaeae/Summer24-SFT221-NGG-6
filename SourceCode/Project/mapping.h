@@ -171,4 +171,6 @@ int eqPt(const struct Point p1, const struct Point p2);
 */
 int getClosestPoint(const struct Route* route, const struct Point pt);
 
+int mappingAdd(int x, int y);
+
 #endif
