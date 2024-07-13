@@ -28,7 +28,7 @@ struct Truck {
  * Function: isValidWeight
  * - Check if the field `m_weight` of the given shipment is valid.
  * 
- * @param shipment - Shipment struct containing the destination coordinates (row and column) of the shipment.
+ * @param shipment - Shipment struct containing the destination coordinates (row and column) of the shipment
  * @returns - integer, return true if valide, otherwise return false
  */
 int isValidWeight(struct Shipment *shipement);
@@ -37,7 +37,7 @@ int isValidWeight(struct Shipment *shipement);
  * Function: isValidBoxSize
  * - Check if the field `m_boxSize` of the given shipment is valid.
  * 
- * @param shipment - Shipment struct containing the destination coordinates (row and column) of the shipment.
+ * @param shipment - Shipment struct containing the destination coordinates (row and column) of the shipment
  * @returns - integer, return true if valide, otherwise return false
  */
 int isValidBoxSize(struct Shipment *shipement);
@@ -46,7 +46,7 @@ int isValidBoxSize(struct Shipment *shipement);
  * Function: isValidDest
  * - Check if the field `m_dest` of the given shipment is valid.
  * 
- * @param shipment - Shipment struct containing the destination coordinates (row and column) of the shipment.
+ * @param shipment - Shipment struct containing the destination coordinates (row and column) of the shipment
  * @returns - integer, return true if valide, otherwise return false
  */
 int isValidDest(struct Shipment *shipement);
@@ -55,7 +55,7 @@ int isValidDest(struct Shipment *shipement);
  * Function: limitingFactorWithShipment
  * - Calculate the limiting factor of a truck with a extra shipment
  * 
- * @param truck - a truck to be calcualted with a extra shipment
+ * @param truck - a truck to be calculated  with an extra shipment
  * @param withShipment - the extra shipment
  * @returns - double, return a limiting factor in percentage
  */
@@ -68,19 +68,19 @@ double limitingFactorWithShipment(struct Truck* truck, struct Shipment *withShip
  * it on a truck which goes closest to the destination. If there is no truck that 
  * can deliver the shipment, it returns -1.
  * 
- * @param map - the map of the delivery area with buildings on it.
- * @param trcnks - an array of trucks including the route for each of the trucks.
- * @param numTrucks - the number of trucks in the array of trucks.
- * @param shipment - a data structure containing the size and weight of the shipment.
+ * @param map - the map of the delivery area with buildings on it
+ * @param trcnks - an array of trucks including the route for each of the trucks
+ * @param numTrucks - the number of trucks in the array of trucks
+ * @param shipment - a data structure containing the size and weight of the shipment
  * @param diverted - a data structure representing the diverted route to the destination (passed by parameter)
  * @returns - integer, representing the index of the truck in the trucks array on which 
- * the shipment should be placed. If no truck can take the shipment, then -1 is returned.
+ * the shipment should be placed. If no truck can take the shipment, then -1 is returned
  */
 int findTruckForShipment(
-    struct Map map, 
+    struct Map* map, 
     struct Truck trucks[], 
     int numTrucks, 
-    struct Shipment shipment, 
+    struct Shipment* shipment, 
     struct Route *diverted
 );
 
