@@ -6,12 +6,8 @@
 
 extern const int WEIGHT_MAX;
 extern const int VOLUME_MAX;
-
-
-extern const char LEFT_MOST_ROW;
-extern const char RIGHT_MOST_ROW;
-extern const int TOP_MOST_COL;
-extern const int DOWN_MOST_COL;
+extern const char MAX_ROW;
+extern const char MAX_COL;
 
 extern const int validBoxSizes[3];
 

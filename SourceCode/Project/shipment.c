@@ -10,14 +10,36 @@
 
 const int WEIGHT_MAX = 2500;
 const int VOLUME_MAX = 100;
-
-
-const char LEFT_MOST_ROW = 'A';
-const char RIGHT_MOST_ROW = 'Y';
-const int TOP_MOST_COL = 1;
-const int DOWN_MOST_COL = 25;
+const char MAX_ROW = 24;
+const char MAX_COL = 24;
 
 const int validBoxSizes[3] = { 1,3,5 };
+
+int isValidDest(struct Shipment* shipement) {
+	// check row
+	if (shipement->m_dest.row < 0 || shipement->m_dest.row > MAX_ROW) {
+		return 0;
+	}
+	// check column
+	else if (shipement->m_dest.col < 0 || shipement->m_dest.col > MAX_COL) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}
+
+double limitingFactorWithShipment(struct Truck* truck, struct Shipment* withShipment) {
+	int newWeight = truck->m_weight_capacity + withShipment->m_weight;
+	int newVolume = truck->m_volume_capacity + withShipment->m_boxSize;
+
+	// Calculate the weight and volume percentages
+	double weightPercentage = (double)newWeight / WEIGHT_MAX * 100.0;
+	double volumePercentage = (double)newVolume / VOLUME_MAX * 100.0;
+
+	// Return the higher percentage as the limiting factor
+	return (weightPercentage > volumePercentage) ? weightPercentage : volumePercentage;
+}
 
 void visualizeRoute(
 	const struct Map* baseMap, const struct Route* route, const int base1, const int alphaCols
