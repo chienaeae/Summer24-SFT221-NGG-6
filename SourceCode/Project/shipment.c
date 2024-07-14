@@ -37,6 +37,7 @@ double limitingFactorWithShipment(struct Truck* truck, struct Shipment* withShip
 	double weightPercentage = (double)newWeight / WEIGHT_MAX * 100.0;
 	double volumePercentage = (double)newVolume / VOLUME_MAX * 100.0;
 
+	if (weightPercentage > 100 || volumePercentage > 100) return -1;
 	// Return the higher percentage as the limiting factor
 	return (weightPercentage > volumePercentage) ? weightPercentage : volumePercentage;
 }
