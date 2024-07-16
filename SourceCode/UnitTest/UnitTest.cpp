@@ -136,6 +136,88 @@ namespace UnitTest
             double result = limitingFactorWithShipment(&truck, &shipment);
             Assert::AreEqual(-1, result, 1e-6);
         }
+
+        TEST_METHOD(TestIsValidWeight_BelowLimit)
+        {
+            struct Shipment shipment = { 0, 1, {0, 0} };
+            Assert::AreEqual(0, isValidWeight(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidWeight_AboveLimit)
+        {
+            struct Shipment shipment = { 2501, 1, {0, 0} };
+            Assert::AreEqual(0, isValidWeight(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidWeight_Lowerlimit)
+        {
+            struct Shipment shipment = { 1, 1, {0, 0} };
+            Assert::AreEqual(1, isValidWeight(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidWeight_Upperlimit)
+        {
+            struct Shipment shipment = { 2500, 1, {0, 0} };
+            Assert::AreEqual(1, isValidWeight(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidSize_WithValidSizes)
+        {
+            struct Shipment shipment;
+            shipment = { 1, 1, {0, 0} };
+            Assert::AreEqual(1, isValidBoxSize(&shipment));
+            shipment = { 1, 3, {0, 0} };
+            Assert::AreEqual(1, isValidBoxSize(&shipment));
+            shipment = { 1, 5, {0, 0} };
+            Assert::AreEqual(1, isValidBoxSize(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidSize_WithInvalidSizes)
+        {
+            struct Shipment shipment;
+            shipment = { 1, 0, {0, 0} };
+            Assert::AreEqual(0, isValidBoxSize(&shipment));
+            shipment = { 1, 2, {0, 0} };
+            Assert::AreEqual(0, isValidBoxSize(&shipment));
+            shipment = { 1, 4, {0, 0} };
+            Assert::AreEqual(0, isValidBoxSize(&shipment));
+            shipment = { 1, 6, {0, 0} };
+            Assert::AreEqual(0, isValidBoxSize(&shipment));
+        }
+
+        TEST_METHOD(TestIsTruckCanShip_Weight)
+        {
+            struct Truck truck = { 1, {{ {60, 60} }, 1, 1}, 2300, 85 };
+
+            struct Shipment shipment;
+            shipment = { 2300, 1, {0, 0} };
+            Assert::AreEqual(1, isTruckCanShip(&truck, &shipment));
+            shipment = { 2301, 2, {0, 0} };
+            Assert::AreEqual(0, isTruckCanShip(&truck, &shipment));
+            shipment = { 2299, 4, {0, 0} };
+            Assert::AreEqual(0, isTruckCanShip(&truck, &shipment));
+            shipment = { 0, 6, {0, 0} };
+            Assert::AreEqual(0, isTruckCanShip(&truck, &shipment));
+        }
+
+        TEST_METHOD(TestIsTruckCanShip_Size)
+        {
+            struct Truck truck = { 1, {{ {60, 60} }, 1, 1}, 2300, 125 };
+
+            struct Shipment shipment;
+            shipment = { 1, 1, {0, 0} };
+            Assert::AreEqual(1, isTruckCanShip(&truck, &shipment));
+            shipment = { 1, 2, {0, 0} };
+            Assert::AreEqual(0, isTruckCanShip(&truck, &shipment));
+            shipment = { 1, 3, {0, 0} };
+            Assert::AreEqual(1, isTruckCanShip(&truck, &shipment));
+            shipment = { 1, 4, {0, 0} };
+            Assert::AreEqual(0, isTruckCanShip(&truck, &shipment));
+            shipment = { 1, 5, {0, 0} };
+            Assert::AreEqual(1, isTruckCanShip(&truck, &shipment));
+            shipment = { 1, 6, {0, 0} };
+            Assert::AreEqual(0, isTruckCanShip(&truck, &shipment));
+        }
 	};
 
     TEST_CLASS(MappingTest) 

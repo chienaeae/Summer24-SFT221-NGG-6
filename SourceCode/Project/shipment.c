@@ -104,4 +104,39 @@ void visualizeRoute(
 	}
 }
 
+int isValidWeight(struct Shipment* shipement)
+{
+	if (shipement->m_weight >= 1 && shipement->m_weight <= 2500)
+	{
+		return 1;
+	}
+	return 0;
+}
 
+
+int isValidBoxSize(struct Shipment* shipement)
+{
+	if (shipement->m_boxSize == 1 || shipement->m_boxSize == 3 || shipement->m_boxSize == 5)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+int isTruckCanShip(struct Truck* truck, struct Shipment* shipment)
+{
+	if (!isValidWeight(shipment) || !isValidBoxSize(shipment))
+	{
+		return 0;
+	}
+	if (truck->m_weight_capacity < shipment->m_weight)
+	{
+		return 0;
+	}
+	int vol = shipment->m_boxSize * shipment->m_boxSize * shipment->m_boxSize;
+	if (truck->m_volume_capacity < vol)
+	{
+		return 0;
+	}
+	return 1;
+}

@@ -11,12 +11,23 @@ extern const char MAX_COL;
 
 extern const int validBoxSizes[3];
 
+/**
+* int - Weight (1 - 2500)
+* int - BoxSize (1, 3, 5)
+* Point - Destination
+**/
 struct Shipment {
     int m_weight;
     int m_boxSize;
     struct Point m_dest;
 };
 
+/**
+* int - id
+* Route - route
+* int - weight capacity
+* int - volume capacity
+**/
 struct Truck {
 	int m_id;
     struct Route route;
