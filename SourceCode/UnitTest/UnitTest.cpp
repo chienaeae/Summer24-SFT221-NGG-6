@@ -246,28 +246,6 @@ namespace UnitTest
 
             trucks[0].m_weight_capacity = 1400;
             trucks[0].m_volume_capacity = 95;
-            trucks[1].m_weight_capacity = 200;
-            trucks[1].m_volume_capacity = 50;
-            trucks[2].m_weight_capacity = 2500;
-            trucks[2].m_volume_capacity = 20;
-
-            struct Shipment shipment;
-            shipment.m_weight = 1500; // Example weight
-            shipment.m_boxSize = 3;   // Example box size
-            shipment.m_dest = { 5, 1 }; // Example destination
-
-        }
-        TEST_METHOD(TestFindTruckForShipment_whitebox3)
-        {
-            struct Map map = populateMap();
-            const int numTrucks = 3;
-            struct Truck trucks[numTrucks]; // Array of 3 trucks for testing
-            trucks[0].route = getBlueRoute();
-            trucks[2].route = getGreenRoute();
-            trucks[1].route = getYellowRoute();
-
-            trucks[0].m_weight_capacity = 1400;
-            trucks[0].m_volume_capacity = 95;
             trucks[1].m_weight_capacity = 250;
             trucks[1].m_volume_capacity = 50;
             trucks[2].m_weight_capacity = 2500;
@@ -281,7 +259,7 @@ namespace UnitTest
             struct Route divertedRoute;
             Assert::AreEqual(1, findTruckForShipment(&map, trucks, numTrucks, &shipment, &divertedRoute));
         }
-        TEST_METHOD(TestFindTruckForShipment_whitebox4)
+        TEST_METHOD(TestFindTruckForShipment_whitebox3)
         {
             struct Map map = populateMap();
             const int numTrucks = 3;
@@ -307,7 +285,7 @@ namespace UnitTest
 
         }
         
-        TEST_METHOD(TestFindTruckForShipment_whitebox5)
+        TEST_METHOD(TestFindTruckForShipment_whitebox4)
         {
             struct Map map = populateMap();
             const int numTrucks = 3;
