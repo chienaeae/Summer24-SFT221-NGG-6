@@ -187,22 +187,22 @@ namespace UnitTest
 
         TEST_METHOD(TestIsTruckCanShip_Weight)
         {
-            struct Truck truck = { 1, {{ {60, 60} }, 1, 1}, 2300, 85 };
+            struct Truck truck = { 1, {{ {60, 60} }, 1, 1}, WEIGHT_MAX - 200, 0 };
 
             struct Shipment shipment;
-            shipment = { 2300, 1, {0, 0} };
+            shipment = { 100, 1, {0, 0} };
             Assert::AreEqual(1, isTruckCanShip(&truck, &shipment));
-            shipment = { 2301, 2, {0, 0} };
-            Assert::AreEqual(0, isTruckCanShip(&truck, &shipment));
-            shipment = { 2299, 4, {0, 0} };
-            Assert::AreEqual(0, isTruckCanShip(&truck, &shipment));
-            shipment = { 0, 6, {0, 0} };
+            shipment = { 200, 1, {0, 0} };
+            Assert::AreEqual(1, isTruckCanShip(&truck, &shipment));
+            shipment = { 50, 3, {0, 0} };
+            Assert::AreEqual(1, isTruckCanShip(&truck, &shipment));
+            shipment = { 50, 5, {0, 0} };
             Assert::AreEqual(0, isTruckCanShip(&truck, &shipment));
         }
 
         TEST_METHOD(TestIsTruckCanShip_Size)
         {
-            struct Truck truck = { 1, {{ {60, 60} }, 1, 1}, 2300, 125 };
+            struct Truck truck = { 1, {{ {60, 60} }, 1, 1}, WEIGHT_MAX - 200, VOLUME_MAX - 125 };
 
             struct Shipment shipment;
             shipment = { 1, 1, {0, 0} };

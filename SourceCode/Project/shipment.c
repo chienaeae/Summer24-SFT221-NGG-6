@@ -130,12 +130,12 @@ int isTruckCanShip(struct Truck* truck, struct Shipment* shipment)
 	{
 		return 0;
 	}
-	if (truck->m_weight_capacity < shipment->m_weight)
+	if (truck->m_weight_capacity + shipment->m_weight > WEIGHT_MAX)
 	{
 		return 0;
 	}
 	int vol = shipment->m_boxSize * shipment->m_boxSize * shipment->m_boxSize;
-	if (truck->m_volume_capacity < vol)
+	if (truck->m_volume_capacity + vol > VOLUME_MAX)
 	{
 		return 0;
 	}
