@@ -6,6 +6,7 @@
 #else
 #include <unistd.h> // Unix
 #endif
+#include <float.h>
 #include "mapping.h"
 
 const int WEIGHT_MAX = 2500;
@@ -139,4 +140,34 @@ int isTruckCanShip(struct Truck* truck, struct Shipment* shipment)
 		return 0;
 	}
 	return 1;
+}
+
+int findTruckForShipment(
+	struct Map* map,
+	struct Truck trucks[],
+	int numTrucks,
+	struct Shipment* shipment,
+	struct Route* diverted
+)
+{
+	int selected = -1;
+	double selectedDist = DBL_MAX;
+	struct Route routes[MAX_ROUTE];
+	for (int i = 0; i < numTrucks; i++)
+	{
+		int closestPtIdx = getClosestPoint(&trucks[i].route, shipment->m_dest);
+		routes[i] = shortestPath(map, trucks[i].route.points[closestPtIdx], shipment->m_dest);
+		double routeClosestDistance = distance(&trucks[i].route.points[closestPtIdx], &shipment->m_dest);
+		if (routes->numPoints > 0 && isTruckCanShip(&trucks[i], shipment) && selectedDist > routeClosestDistance)
+		{
+			selected = i;
+			selectedDist = routeClosestDistance;
+			if (routeClosestDistance > 0)
+			{
+				*diverted = shortestPath(map, trucks[i].route.points[closestPtIdx], shipment->m_dest);
+			}
+		}
+	}
+
+	return selected;
 }
