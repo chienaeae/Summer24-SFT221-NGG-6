@@ -172,4 +172,6 @@ int eqPt(const struct Point p1, const struct Point p2);
 int getClosestPoint(const struct Route* route, const struct Point pt);
 
 
+struct Route shortestPathBFS(const struct Map* map, const struct Point start, const struct Point dest);
+
 #endif

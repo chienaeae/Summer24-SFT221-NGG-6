@@ -1,7 +1,14 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <stdlib.h>
 #include "mapping.h"
 #include "math.h"
+#include "utils.h"
+
+const int directions [8][2] = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}}; // Note: left, right, up down are prioritized, diagonal: {1, 1}, {-1, -1}, {-1, 1}, {1, -1} are skipped
+const int TARGET = 999;
+const int PASSABLE = 0;
+const int BLOCKED = -1;
 
 struct Map populateMap()
 {
@@ -286,4 +293,140 @@ int getClosestPoint(const struct Route* route, const struct Point pt)
 		}
 	}
 	return closestIdx;
+}
+
+struct Pair renderShortestPathBFS(int squares[MAP_ROWS][MAP_COLS], const struct Point start) {
+	if(squares[start.row][start.col] == TARGET) {
+		struct Pair self = {start.row, start.col};
+		return self;
+	}
+
+	Queue qe;
+	initializeQueue(&qe);
+	struct Pair startPair = {start.row, start.col};
+	enqueue(&qe, startPair);
+	squares[startPair.row][startPair.col] = 1;
+	while(!isEmpty(&qe)) {
+		int size = queueSize(&qe);
+		for(int i = 0; i < size; i++) {
+			Pair head = dequeue(&qe);
+			int dirIndex;
+			for(dirIndex = 0; dirIndex < 8; dirIndex++) {
+				int newRow = head.row + directions[dirIndex][0];
+				int newCol = head.col + directions[dirIndex][1];
+				// check valid point
+				if(newRow < 0 || newRow >= MAP_ROWS || newCol < 0 || newCol >= MAP_COLS) {
+					continue;
+				}
+				
+				// check is target
+				if(squares[newRow][newCol] == TARGET) {
+					squares[newRow][newCol] = squares[head.row][head.col] + 1; 
+					Pair found = {newRow, newCol};
+					return found;
+				}
+				
+				// check is passable
+				if(squares[newRow][newCol] != PASSABLE) {
+					continue;
+				}
+				squares[newRow][newCol] = squares[head.row][head.col] + 1; 
+				struct Pair newPair = {newRow, newCol};
+				enqueue(&qe, newPair);
+			}
+		}
+	}
+
+	struct Pair notFound = {-1, -1};
+	return notFound;
+}
+
+struct Pair* backtraceRenderedRoute(int squares[MAP_ROWS][MAP_COLS], const struct Point dest, int n) {
+	struct Pair* route = (Pair*)malloc(n * sizeof(Pair));
+	int row = dest.row, col = dest.col, step = n;
+	while(step > 0) {
+		step--;
+		route[step].row = row;
+		route[step].col = col;
+
+		int dirIndex;
+		for(dirIndex = 0; dirIndex < 8; dirIndex ++) {
+			int newRow = row + directions[dirIndex][0];
+			int newCol = col + directions[dirIndex][1];
+			if (newRow >= 0 && newRow < MAP_ROWS && newCol >= 0 && newCol < MAP_COLS && squares[newRow][newCol] == step) {
+				row = newRow;
+				col = newCol;
+				break;
+			}
+		}
+	}
+	return route;
+}
+
+struct Route shortestPathBFS(const struct Map* map, const struct Point start, const struct Point dest) {
+	struct Point toPoint = {dest.row, dest.col};
+	int row = 0, col = 0;
+	int squares[MAP_ROWS][MAP_COLS];
+
+	// 1. find the route to leave building
+	int nLeaveBuilding = 0;
+	struct Pair* backtraceRouteLeaveBuilding = NULL;
+	if(map->squares[toPoint.row][toPoint.col] == 1) {
+		for(row = 0; row < MAP_ROWS; row ++) {
+			for(col = 0; col < MAP_COLS; col ++) {
+				if(map->squares[row][col] == 0) {
+					squares[row][col] = TARGET;
+				}else {
+					squares[row][col] = PASSABLE;
+				}
+			}	
+		}
+		
+		struct Pair found = renderShortestPathBFS(squares, dest);
+		toPoint.row = found.row;
+		toPoint.col = found.col;
+
+		// back trace the route leaving building
+		if(found.row != -1 && found.col != -1) {
+			nLeaveBuilding = squares[toPoint.row][toPoint.col];
+			backtraceRouteLeaveBuilding =  backtraceRenderedRoute(squares, toPoint, nLeaveBuilding);
+		}
+	}
+
+	// 2. find the route to destination
+	for(row = 0; row < MAP_ROWS; row ++) {
+		for(col = 0; col < MAP_COLS; col ++) {
+			squares[row][col] = map->squares[row][col] != 0 ? BLOCKED : PASSABLE;
+		}	
+	}
+	squares[dest.row][dest.col] = 1;
+	struct Pair found = renderShortestPathBFS(squares, start);
+
+	// 3. back trace the route
+	struct Route result = { {0,0}, 0, DIVERSION };
+	if(toPoint.row != -1 && toPoint.col != -1) {
+		int n = squares[toPoint.row][toPoint.col];
+		struct Pair* backtraceRoute =  backtraceRenderedRoute(squares, toPoint, n);
+
+		int i;
+		for(i = 0; i < n; i++) {
+			addPointToRoute(&result, backtraceRoute[i].row, backtraceRoute[i].col);
+		}
+		free(backtraceRoute);
+	}
+
+	// 4. add step leaving building (if there is any)
+	if(nLeaveBuilding != 0) {
+		int i;
+		for(i = nLeaveBuilding - 1; i >= 0 ; i--) {
+			if(i == nLeaveBuilding - 1) {
+				// ignore this point
+				continue;
+			}
+			addPointToRoute(&result, backtraceRouteLeaveBuilding[i].row, backtraceRouteLeaveBuilding[i].col);
+		}
+		free(backtraceRouteLeaveBuilding);
+	}
+
+	return result;
 }
