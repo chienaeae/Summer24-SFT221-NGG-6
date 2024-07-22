@@ -1,5 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "shipment.h"
+#include <stdio.h>
 
 #ifdef _WIN32
 #include <conio.h> // Windows 
@@ -126,16 +127,11 @@ int isValidBoxSize(struct Shipment* shipement)
 
 int isTruckCanShip(struct Truck* truck, struct Shipment* shipment)
 {
-	if (!isValidWeight(shipment) || !isValidBoxSize(shipment))
-	{
-		return 0;
-	}
 	if (truck->m_weight_capacity + shipment->m_weight > WEIGHT_MAX)
 	{
 		return 0;
 	}
-	int vol = shipment->m_boxSize * shipment->m_boxSize * shipment->m_boxSize;
-	if (truck->m_volume_capacity + vol > VOLUME_MAX)
+	if (truck->m_volume_capacity + shipment->m_boxSize > VOLUME_MAX)
 	{
 		return 0;
 	}
@@ -152,22 +148,33 @@ int findTruckForShipment(
 {
 	int selected = -1;
 	double selectedDist = DBL_MAX;
-	struct Route routes[MAX_ROUTE];
+	int selectedClosestPtIdx = -1;
 	for (int i = 0; i < numTrucks; i++)
 	{
+		if(!isTruckCanShip(&trucks[i], shipment)) {
+			continue;
+		}
+
 		int closestPtIdx = getClosestPoint(&trucks[i].route, shipment->m_dest);
-		routes[i] = shortestPath(map, trucks[i].route.points[closestPtIdx], shipment->m_dest);
+		if(closestPtIdx == -1) {
+			continue;
+		}
+
 		double routeClosestDistance = distance(&trucks[i].route.points[closestPtIdx], &shipment->m_dest);
-		if (routes->numPoints > 0 && isTruckCanShip(&trucks[i], shipment) && selectedDist > routeClosestDistance)
-		{
+
+		if(selectedDist > routeClosestDistance) {
 			selected = i;
 			selectedDist = routeClosestDistance;
-			if (routeClosestDistance > 0)
-			{
-				*diverted = shortestPath(map, trucks[i].route.points[closestPtIdx], shipment->m_dest);
-			}
+			selectedClosestPtIdx = closestPtIdx;
+			
 		}
 	}
+
+	if (selected != -1 && selectedDist > 0)
+	{
+		*diverted = shortestPathBFS(map, trucks[selected].route.points[selectedClosestPtIdx], shipment->m_dest);
+	}
+
 
 	return selected;
 }
