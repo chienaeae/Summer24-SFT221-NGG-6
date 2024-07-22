@@ -73,6 +73,22 @@ namespace UnitTest
             Assert::AreEqual(0, result);
         }
 
+        TEST_METHOD(TestIsValidDest_RowOverflow)
+        {
+            Shipment shipment;
+            shipment.m_dest.row = 1000;
+            shipment.m_dest.col = 0;
+            Assert::AreEqual(0, isValidDest(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidDest_ColOverflow)
+        {
+            Shipment shipment;
+            shipment.m_dest.row = 0;
+            shipment.m_dest.col = 1000;
+            Assert::AreEqual(0, isValidDest(&shipment));
+        }
+
         TEST_METHOD(TestLimitingFactorWithShipment_WeightLimit)
         {
             struct Truck truck = { 1, {{ {10, 0}, {20, 0}, {30, 0} }, 3, 'A'}, 2400, 50 };
@@ -137,6 +153,22 @@ namespace UnitTest
             Assert::AreEqual(-1, result, 1e-6);
         }
 
+        TEST_METHOD(TestLimitingFactorWithShipment_ExtremelyHighValues)
+        {
+            Truck truck = { 1, {}, 2500, 100 };
+            Shipment shipment = { 2500, 100, {} };
+            double result = limitingFactorWithShipment(&truck, &shipment);
+            Assert::AreEqual(-1.0, result);
+        }
+
+        TEST_METHOD(TestLimitingFactorWithShipment_ExtremelyLowValues)
+        {
+            Truck truck = { 1, {}, -1000, -50 };
+            Shipment shipment = { -1500, -50, {} };
+            double result = limitingFactorWithShipment(&truck, &shipment);
+            Assert::AreEqual(-1.0, result);
+        }
+
         TEST_METHOD(TestIsValidWeight_BelowLimit)
         {
             struct Shipment shipment = { 0, 1, {0, 0} };
@@ -161,6 +193,33 @@ namespace UnitTest
             Assert::AreEqual(1, isValidWeight(&shipment));
         }
 
+        TEST_METHOD(TestIsValidWeight_WithinRange)
+        {
+            Shipment shipment;
+            shipment.m_weight = 1500;
+            Assert::AreEqual(1, isValidWeight(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidWeight_OutOfRange)
+        {
+            Shipment shipment;
+            shipment.m_weight = 3000;
+            Assert::AreEqual(0, isValidWeight(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidWeight_NegativeWeight)
+        {
+            Shipment shipment;
+            shipment.m_weight = -1;
+            Assert::AreEqual(0, isValidWeight(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidWeight_ExtremelyHighWeight)
+        {
+            Shipment shipment;
+            shipment.m_weight = 100000;
+            Assert::AreEqual(0, isValidWeight(&shipment));
+        }
         TEST_METHOD(TestIsValidSize_WithValidSizes)
         {
             struct Shipment shipment;
@@ -183,6 +242,34 @@ namespace UnitTest
             Assert::AreEqual(0, isValidBoxSize(&shipment));
             shipment = { 1, 6, {0, 0} };
             Assert::AreEqual(0, isValidBoxSize(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidBoxSize_NegativeBoxSize)
+        {
+            Shipment shipment;
+            shipment.m_boxSize = -1;
+            Assert::AreEqual(0, isValidBoxSize(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidBoxSize_ExtremelyHighBoxSize)
+        {
+            Shipment shipment;
+            shipment.m_boxSize = 100000;
+            Assert::AreEqual(0, isValidBoxSize(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidBoxSize_ExtremelyLowBoxSize)
+        {
+            Shipment shipment;
+            shipment.m_boxSize = -100000;
+            Assert::AreEqual(0, isValidBoxSize(&shipment));
+        }
+
+        TEST_METHOD(TestIsValidBoxSize_FloatBoxSize)
+        {
+            Shipment shipment;
+            shipment.m_boxSize = 3.5;
+            Assert::AreEqual(1, isValidBoxSize(&shipment));
         }
 
         TEST_METHOD(TestIsTruckCanShip_Weight)
@@ -211,6 +298,30 @@ namespace UnitTest
             Assert::AreEqual(1, isTruckCanShip(&truck, &shipment));
             shipment = { 1, 5, {0, 0} };
             Assert::AreEqual(1, isTruckCanShip(&truck, &shipment));
+        }
+
+        TEST_METHOD(TestIsTruckCanShip_NegativeWeight)
+        {
+            Truck truck = { 1, {}, 1000, 50 };
+            Shipment shipment = { -500, 1, {} };
+            int result = isTruckCanShip(&truck, &shipment);
+            Assert::AreEqual(1, result);
+        }
+
+        TEST_METHOD(TestIsTruckCanShip_NegativeBoxSize)
+        {
+            Truck truck = { 1, {}, 1000, 50 };
+            Shipment shipment = { 500, -10, {} };
+            int result = isTruckCanShip(&truck, &shipment);
+            Assert::AreEqual(1, result);
+        }
+
+        TEST_METHOD(TestIsTruckCanShip_ZeroWeightAndBoxSize)
+        {
+            Truck truck = { 1, {}, 1000, 50 };
+            Shipment shipment = { -500, -10, {} };
+            int result = isTruckCanShip(&truck, &shipment);
+            Assert::AreEqual(1, result);
         }
         TEST_METHOD(TestFindTruckForShipment_whitebox1)
         {

@@ -17,18 +17,14 @@ const char MAX_COL = 24;
 
 const int validBoxSizes[3] = { 1,3,5 };
 
-int isValidDest(struct Shipment* shipement) {
+int isValidDest(struct Shipment* shipment) {
 	// check row
-	if (shipement->m_dest.row < 0 || shipement->m_dest.row > MAX_ROW) {
-		return 0;
-	}
-	// check column
-	else if (shipement->m_dest.col < 0 || shipement->m_dest.col > MAX_COL) {
-		return 0;
-	}
-	else {
+	if (shipment->m_dest.row >= 0 && shipment->m_dest.row <= MAX_ROW &&
+		// check col
+		shipment->m_dest.col >= 0 && shipment->m_dest.col <= MAX_COL) {
 		return 1;
 	}
+	return 0;
 }
 
 double limitingFactorWithShipment(struct Truck* truck, struct Shipment* withShipment) {
@@ -40,6 +36,8 @@ double limitingFactorWithShipment(struct Truck* truck, struct Shipment* withShip
 	double volumePercentage = (double)newVolume / VOLUME_MAX * 100.0;
 
 	if (weightPercentage > 100 || volumePercentage > 100) return -1;
+	if (weightPercentage < 0 || volumePercentage < 0) return -1;
+
 	// Return the higher percentage as the limiting factor
 	return (weightPercentage > volumePercentage) ? weightPercentage : volumePercentage;
 }
