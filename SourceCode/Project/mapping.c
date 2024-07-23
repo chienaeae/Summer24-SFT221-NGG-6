@@ -399,7 +399,7 @@ struct Route shortestPathBFS(const struct Map* map, const struct Point start, co
 			squares[row][col] = map->squares[row][col] != 0 ? BLOCKED : PASSABLE;
 		}	
 	}
-	squares[dest.row][dest.col] = 1;
+	squares[dest.row][dest.col] = TARGET;
 	struct Pair found = renderShortestPathBFS(squares, start);
 
 	// 3. back trace the route
