@@ -45,6 +45,8 @@ double limitingFactorWithShipment(struct Truck* truck, struct Shipment* withShip
 void visualizeRoute(
 	const struct Map* baseMap, const struct Route* route, const int base1, const int alphaCols
 ) {
+	while(getchar() != '\n');
+	
 	int index = 0;
 	int i = 0;
 	for (i = 0; i < route->numPoints; i++) {
@@ -55,9 +57,6 @@ void visualizeRoute(
 #else
 		printf("\e[1;1H\e[2J");
 #endif
-
-		printf("Current Point: (%d:%d)\n", point.row, point.col);
-
 		//              01234567890123456
 		//              1248F
 		char sym[] = { " XB?G?.?Y?-?*?+?P" };
@@ -93,14 +92,18 @@ void visualizeRoute(
 			}
 			printf("\n");
 		}
-		printf("Press enter to see the next move: ");
 
+		printf("\n");
+		printf("Current Point: (%d:%c)\n", point.row + 1, point.col +65);
+		printf("Press enter to see the next move: ");
 		// Wait fot console input
 #ifdef _WIN32
 		while (_getch() != '\r');
 #else
 		while (getchar() != '\n');
 #endif
+
+		printf("\n");
 	}
 }
 
