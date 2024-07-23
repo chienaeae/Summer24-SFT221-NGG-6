@@ -108,6 +108,7 @@ int main(void)
 				}
 				printf("]\n");
 			}
+			printf("\n");
 #endif
 			printf("Ship on ");
 			switch (trucks[idx].route.routeSymbol)
