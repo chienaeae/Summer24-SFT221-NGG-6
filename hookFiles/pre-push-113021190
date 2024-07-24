@@ -1,7 +1,7 @@
 f#!/bin/sh
 echo "Starting test runner..."
 test_runner="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
-tests_dll="C:\Users\developer\hansolnam\sft-221\Summer24-SFT221-NGG-6\SourceCode\x64\Debug\UnitTest.dll"
+tests_dll="C:\Users\hansolnam\sft-221\Summer24-SFT221-NGG-6\SourceCode\x64\Debug\UnitTest.dll"
 failure_string="Failed:"
 testout=$("$test_runner" "$tests_dll")
 if [[ $testout == *"$failure_string"* ]]; then
