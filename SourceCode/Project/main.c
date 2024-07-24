@@ -69,10 +69,46 @@ int main(void)
 			int i = 0;
 
 #ifdef DEBUG
-			visualizeRoute(&map, &diverted, -1, -1);
-			for(int idx = 0; idx < 6 ; idx ++) {
-				printf("%d: %d, %d (weight, volume)\n", idx, trucks[idx].m_weight_capacity, trucks[idx].m_volume_capacity);
+			struct Map debuggingMap = populateMap();
+
+			if(trucks[idx].route.routeSymbol == BLUE) {
+				struct Route route = getBlueRoute();
+				debuggingMap = addRoute(&debuggingMap, &route);
+				visualizeRoute(&debuggingMap, &diverted, 1, 1);
+			}else if(trucks[idx].route.routeSymbol == GREEN){
+				struct Route route = getGreenRoute();
+				debuggingMap = addRoute(&debuggingMap, &route);
+				visualizeRoute(&debuggingMap, &diverted, 1, 1);
+
+			}else if(trucks[idx].route.routeSymbol == YELLOW) {
+				struct Route route = getYellowRoute();
+				debuggingMap = addRoute(&debuggingMap, &route);
+				visualizeRoute(&debuggingMap, &diverted, 1, 1);
 			}
+
+			printf("-------------------------------------------\n");
+			printf("          debugging information            \n");
+			printf("-------------------------------------------\n");
+			for(int idx = 0; idx < 6 ; idx ++) {
+				printf("%d: %d, %d (weight, volume)", idx, trucks[idx].m_weight_capacity, trucks[idx].m_volume_capacity);
+				printf("\t[");
+				switch (trucks[idx].route.routeSymbol)
+				{
+				case BLUE:
+					printf("BLUE LINE");
+					break;
+				case GREEN:
+					printf("GREEN LINE");
+					break;
+				case YELLOW:
+					printf("YELLOW LINE");
+					break;
+				default:
+					break;
+				}
+				printf("]\n");
+			}
+			printf("\n");
 #endif
 			printf("Ship on ");
 			switch (trucks[idx].route.routeSymbol)
