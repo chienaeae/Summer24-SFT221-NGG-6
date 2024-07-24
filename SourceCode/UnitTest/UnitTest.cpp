@@ -330,7 +330,7 @@ namespace UnitTest
             Assert::AreEqual(1, isTruckCanShip(&truck, &shipment));
         }
 
-        TEST_METHOD(TestIsTruckCanShip_NegativeWeight)
+        TEST_METHOD(TestIsTruckCanShip_NegativeWeight_TS0074)
         {
             Truck truck = { 1, {}, 1000, 50 };
             Shipment shipment = { -500, 1, {} };
@@ -338,7 +338,7 @@ namespace UnitTest
             Assert::AreEqual(1, result);
         }
 
-        TEST_METHOD(TestIsTruckCanShip_NegativeBoxSize)
+        TEST_METHOD(TestIsTruckCanShip_NegativeBoxSize_TS0075)
         {
             Truck truck = { 1, {}, 1000, 50 };
             Shipment shipment = { 500, -10, {} };
@@ -346,7 +346,7 @@ namespace UnitTest
             Assert::AreEqual(1, result);
         }
 
-        TEST_METHOD(TestIsTruckCanShip_ZeroWeightAndBoxSize)
+        TEST_METHOD(TestIsTruckCanShip_ZeroWeightAndBoxSize_TS0076)
         {
             Truck truck = { 1, {}, 1000, 50 };
             Shipment shipment = { -500, -10, {} };
@@ -462,7 +462,7 @@ namespace UnitTest
             Logger::WriteMessage("In Mapping Test Suite Cleanup");
         }
 
-        TEST_METHOD(TestDistance_SamePoint)
+        TEST_METHOD(TestDistance_SamePoint_TS0015)
         {
             Point p1 = { 0, 0 };
             Point p2 = { 0, 0 };
@@ -470,7 +470,7 @@ namespace UnitTest
             Assert::AreEqual(0.0, result, 1e-6);
         }
 
-        TEST_METHOD(TestDistance_AdjacentPoints)
+        TEST_METHOD(TestDistance_AdjacentPoints_TS0016)
         {
             Point p1 = { 0, 0 };
             Point p2 = { 0, 1 };
@@ -478,7 +478,7 @@ namespace UnitTest
             Assert::AreEqual(1.0, result, 1e-6);
         }
 
-        TEST_METHOD(TestDistance_Diagonal)
+        TEST_METHOD(TestDistance_Diagonal_TS0017)
         {
             Point p1 = { 0, 0 };
             Point p2 = { 1, 1 };
@@ -486,7 +486,7 @@ namespace UnitTest
             Assert::AreEqual(sqrt(2.0), result, 1e-6);
         }
 
-        TEST_METHOD(TestDistance_LargeDistance)
+        TEST_METHOD(TestDistance_LargeDistance_TS0018)
         {
             Point p1 = { 0, 0 };
             Point p2 = { 3, 4 };
@@ -494,7 +494,7 @@ namespace UnitTest
             Assert::AreEqual(5.0, result, 1e-6);
         }
 
-        TEST_METHOD(TestDistance_NegativeCoordinates)
+        TEST_METHOD(TestDistance_NegativeCoordinates_TS0019)
         {
             Point p1 = { -1, -1 };
             Point p2 = { -4, -5 };
@@ -502,7 +502,7 @@ namespace UnitTest
             Assert::AreEqual(5.0, result, 1e-6);
         }
 
-        TEST_METHOD(TestDistance_MixedCoordinates)
+        TEST_METHOD(TestDistance_MixedCoordinates_TS0020)
         {
             Point p1 = { -1, -1 };
             Point p2 = { 1, 1 };
@@ -510,7 +510,7 @@ namespace UnitTest
             Assert::AreEqual(sqrt(8.0), result, 1e-6);
         }
 
-        TEST_METHOD(TestDistance_PositiveCoordinates)
+        TEST_METHOD(TestDistance_PositiveCoordinates_TS0021)
         {
             Point p1 = { 2, 3 };
             Point p2 = { 5, 7 };
@@ -518,7 +518,7 @@ namespace UnitTest
             Assert::AreEqual(5.0, result, 1e-6);
         }
 
-        TEST_METHOD(TestDistance_NonIntegerResult)
+        TEST_METHOD(TestDistance_NonIntegerResult_TS0022)
         {
             Point p1 = { 1, 2 };
             Point p2 = { 4, 6 };
@@ -526,7 +526,7 @@ namespace UnitTest
             Assert::AreEqual(5.0, result, 1e-6);
         }
 
-        TEST_METHOD(TestDistance_FractionalCoordinates)
+        TEST_METHOD(TestDistance_FractionalCoordinates_TS0023)
         {
             Point p1 = { 0, 0 };
             Point p2 = { 1, 2 };
@@ -534,7 +534,7 @@ namespace UnitTest
             Assert::AreEqual(sqrt(5.0), result, 1e-6);
         }
 
-        TEST_METHOD(TestDistance_ZeroRow)
+        TEST_METHOD(TestDistance_ZeroRow_TS0024)
         {
             Point p1 = { 0, 5 };
             Point p2 = { 0, -5 };
@@ -542,14 +542,14 @@ namespace UnitTest
             Assert::AreEqual(10.0, result, 1e-6);
         }
 
-        TEST_METHOD(TestDistance_ZeroCol)
+        TEST_METHOD(TestDistance_ZeroCol_TS0025)
         {
             Point p1 = { 7, 0 };
             Point p2 = { -7, 0 };
             double result = distance(&p1, &p2);
             Assert::AreEqual(14.0, result, 1e-6);
         }
-        TEST_METHOD(TestGetClosestPoint_EmptyRoute)
+        TEST_METHOD(TestGetClosestPoint_EmptyRoute_TS0026)
         {
             Route route = { 0 };
             Point pt = { 0, 0 };
@@ -557,7 +557,7 @@ namespace UnitTest
             Assert::AreEqual(-1, result);
         }
 
-        TEST_METHOD(TestGetClosestPoint_SinglePoint)
+        TEST_METHOD(TestGetClosestPoint_SinglePoint_TS0027)
         {
             Route route = { {{0, 0}}, 1, 'A' };
             Point pt = { 1, 1 };
@@ -565,7 +565,7 @@ namespace UnitTest
             Assert::AreEqual(0, result);
         }
 
-        TEST_METHOD(TestGetClosestPoint_MultiplePoints)
+        TEST_METHOD(TestGetClosestPoint_MultiplePoints_TS0028)
         {
             Route route = { {{0, 0}, {1, 1}, {2, 2}}, 3, 'A' };
             Point pt = { 1, 0 };
@@ -573,7 +573,7 @@ namespace UnitTest
             Assert::AreEqual(0, result);
         }
 
-        TEST_METHOD(TestGetClosestPoint_MultiplePoints_ClosestMiddle)
+        TEST_METHOD(TestGetClosestPoint_MultiplePoints_ClosestMiddle_TS0029)
         {
             Route route = { {{0, 0}, {1, 1}, {2, 2}}, 3, 'A' };
             Point pt = { 1, 1 };
@@ -581,7 +581,7 @@ namespace UnitTest
             Assert::AreEqual(1, result);
         }
 
-        TEST_METHOD(TestGetClosestPoint_MultiplePoints_ClosestLast)
+        TEST_METHOD(TestGetClosestPoint_MultiplePoints_ClosestLast_TS0030)
         {
             Route route = { {{0, 0}, {1, 1}, {2, 2}}, 3, 'A' };
             Point pt = { 3, 3 };
@@ -589,7 +589,7 @@ namespace UnitTest
             Assert::AreEqual(2, result);
         }
 
-        TEST_METHOD(TestGetClosestPoint_LongRoute)
+        TEST_METHOD(TestGetClosestPoint_LongRoute_TS0031)
         {
             Route route = {
                 {
@@ -604,7 +604,7 @@ namespace UnitTest
             Assert::AreEqual(9, result); // Expected to be the closest point to (10, 9)
         }
 
-        TEST_METHOD(TestGetClosestPoint_LongRoute_ExactMatch)
+        TEST_METHOD(TestGetClosestPoint_LongRoute_ExactMatch_TS0032)
         {
             Route route = {
                 {
@@ -619,7 +619,7 @@ namespace UnitTest
             Assert::AreEqual(6, result); // Expected to be the exact match point (7, 3)
         }
 
-        TEST_METHOD(TestGetClosestPoint_LongRoute_NoMatch)
+        TEST_METHOD(TestGetClosestPoint_LongRoute_NoMatch_TS0033)
         {
             Route route = {
                 {
