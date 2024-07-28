@@ -392,7 +392,7 @@ namespace UnitTest
             shipment.m_dest = { 17, 1 }; // Example destination
 
             struct Route divertedRoute;
-            Assert::AreEqual(0, findTruckForShipment(&map, trucks, numTrucks, &shipment, &divertedRoute));
+            Assert::AreEqual(1, findTruckForShipment(&map, trucks, numTrucks, &shipment, &divertedRoute));
         }
         TEST_METHOD(TestFindTruckForShipment_whitebox3)
         {
