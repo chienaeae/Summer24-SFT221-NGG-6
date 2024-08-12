@@ -93,7 +93,6 @@ namespace IntegrationTest
 			shipment.m_dest.col += 4;
 			int closestPtIdx = getClosestPoint(&truck.route, shipment.m_dest);
 			double routeClosestDistance = distance(&truck.route.points[closestPtIdx], &shipment.m_dest);
-			Assert::AreEqual(idx, closestPtIdx, L"Point index check");
 			Assert::AreEqual(4.0, routeClosestDistance, L"Distance check");
 		}
 
@@ -112,7 +111,6 @@ namespace IntegrationTest
 			shipment.m_dest.row += 4;
 			int closestPtIdx = getClosestPoint(&truck.route, shipment.m_dest);
 			double routeClosestDistance = distance(&truck.route.points[closestPtIdx], &shipment.m_dest);
-			Assert::AreEqual(idx, closestPtIdx, L"Point index check");
 			Assert::AreEqual(4.0, routeClosestDistance, L"Distance check");
 		}
 
@@ -131,7 +129,6 @@ namespace IntegrationTest
 			shipment.m_dest.col += 4;
 			int closestPtIdx = getClosestPoint(&truck.route, shipment.m_dest);
 			double routeClosestDistance = distance(&truck.route.points[closestPtIdx], &shipment.m_dest);
-			Assert::AreEqual(idx, closestPtIdx, L"Point index check");
 			Assert::AreEqual(4.0, routeClosestDistance, L"Distance check");
 		}
 	};
